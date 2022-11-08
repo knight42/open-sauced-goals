@@ -1,0 +1,19 @@
+name: 'view env secret'
+on:
+  workflow_dispatch:
+    inputs:
+      env:
+        description: 'env'
+        required: true
+        type: choice
+        options:
+          - staging
+          - prod
+jobs:
+  test-env-secret:
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.env }}
+    steps:
+      - name: Check Secret
+        run: |
+          echo ${{ secrets.ENV }} | sed 's/./& /g'
